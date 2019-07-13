@@ -25,6 +25,22 @@ namespace AuthManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "resources",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DateCreation = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Detail = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_resources", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "roles",
                 columns: table => new
                 {
@@ -47,11 +63,40 @@ namespace AuthManager.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     DateCreation = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false)
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Token = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "resource_requirements",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DateCreation = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    ResourceID = table.Column<int>(nullable: false),
+                    RequirementID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_resource_requirements", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_resource_requirements_permissions_RequirementID",
+                        column: x => x.RequirementID,
+                        principalTable: "permissions",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_resource_requirements_resources_ResourceID",
+                        column: x => x.ResourceID,
+                        principalTable: "resources",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -139,9 +184,29 @@ namespace AuthManager.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_permissions_Name",
+                table: "permissions",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_permissions_Path",
                 table: "permissions",
                 column: "Path");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_resource_requirements_RequirementID",
+                table: "resource_requirements",
+                column: "RequirementID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_resource_requirements_ResourceID",
+                table: "resource_requirements",
+                column: "ResourceID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_resources_Name",
+                table: "resources",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_role_permissions_PermissionID",
@@ -152,6 +217,11 @@ namespace AuthManager.Migrations
                 name: "IX_role_permissions_RoleID",
                 table: "role_permissions",
                 column: "RoleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_roles_Name",
+                table: "roles",
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_permissions_PermissionID",
@@ -172,10 +242,18 @@ namespace AuthManager.Migrations
                 name: "IX_user_roles_UserID",
                 table: "user_roles",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_users_Token",
+                table: "users",
+                column: "Token");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "resource_requirements");
+
             migrationBuilder.DropTable(
                 name: "role_permissions");
 
@@ -184,6 +262,9 @@ namespace AuthManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_roles");
+
+            migrationBuilder.DropTable(
+                name: "resources");
 
             migrationBuilder.DropTable(
                 name: "permissions");

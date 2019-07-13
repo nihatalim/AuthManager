@@ -9,7 +9,6 @@ namespace AuthManager.Models
     {
         public User User { get; set; }
         public int UserID { get; set; }
-
         public Permission Permission { get; set; }
         public int PermissionID { get; set; }
 

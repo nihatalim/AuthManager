@@ -33,9 +33,53 @@ namespace AuthManager.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("Name");
+
                     b.HasIndex("Path");
 
                     b.ToTable("permissions");
+                });
+
+            modelBuilder.Entity("AuthManager.Models.Resource", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateCreation");
+
+                    b.Property<DateTime>("DateModified");
+
+                    b.Property<string>("Detail");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Name");
+
+                    b.ToTable("resources");
+                });
+
+            modelBuilder.Entity("AuthManager.Models.ResourceRequirement", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DateCreation");
+
+                    b.Property<DateTime>("DateModified");
+
+                    b.Property<int>("RequirementID");
+
+                    b.Property<int>("ResourceID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RequirementID");
+
+                    b.HasIndex("ResourceID");
+
+                    b.ToTable("resource_requirements");
                 });
 
             modelBuilder.Entity("AuthManager.Models.Role", b =>
@@ -52,6 +96,8 @@ namespace AuthManager.Migrations
                     b.Property<string>("Name");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("roles");
                 });
@@ -87,7 +133,11 @@ namespace AuthManager.Migrations
 
                     b.Property<DateTime>("DateModified");
 
+                    b.Property<string>("Token");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("Token");
 
                     b.ToTable("users");
                 });
@@ -134,6 +184,19 @@ namespace AuthManager.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("user_roles");
+                });
+
+            modelBuilder.Entity("AuthManager.Models.ResourceRequirement", b =>
+                {
+                    b.HasOne("AuthManager.Models.Permission", "Requirement")
+                        .WithMany("ResourceRequirements")
+                        .HasForeignKey("RequirementID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AuthManager.Models.Resource", "Resource")
+                        .WithMany("Requirements")
+                        .HasForeignKey("ResourceID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("AuthManager.Models.RolePermission", b =>

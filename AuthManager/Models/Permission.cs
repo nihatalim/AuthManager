@@ -12,5 +12,6 @@ namespace AuthManager.Models
         public string Path { get; set; }
         public ICollection<UserPermission> Users { get; set; }
         public ICollection<RolePermission> Roles { get; set; }
+        public ICollection<ResourceRequirement> ResourceRequirements { get; set; }
     }
 }

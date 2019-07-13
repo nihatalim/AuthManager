@@ -30,7 +30,7 @@ namespace AuthManager.Middlewares
 
             if (Key.Equals(Program.token))
             {
-                user = databaseContext.Users.Where(a => a.token.Equals(Token)).FirstOrDefault();
+                user = databaseContext.Users.Where(a => a.Token.Equals(Token)).FirstOrDefault();
                 if (user != null)
                 {
                     Claim[] claims = new Claim[]
