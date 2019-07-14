@@ -25,8 +25,15 @@ namespace AuthManager
             services.AddMvc(opt => {
                 opt.Filters.Add<ActionFilter>();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddDbContext<DatabaseContext>();
+
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IResourceRepository, ResourceRepository>();
+            services.AddTransient<IPermissionRepository, PermissionRepository>();
+            services.AddTransient<ILogicRepository, LogicRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("CoreSwagger", new Info

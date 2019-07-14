@@ -6,6 +6,6 @@ namespace AuthManager.DTO
 {
     public class BaseRequest
     {
-        public string token { get; set; }
+        public string Token { get; set; }
     }
 }

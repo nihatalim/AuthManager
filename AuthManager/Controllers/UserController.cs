@@ -14,7 +14,6 @@ namespace AuthManager.Controllers
     [Produces("application/json")]
     [Route("api/user")]
     [ApiController]
-    
     public class UserController 
     {
         private readonly IUserRepository userRepository;

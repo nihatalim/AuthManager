@@ -59,5 +59,23 @@ namespace AuthManager.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The operation is failed..
+        /// </summary>
+        internal static string result_failed {
+            get {
+                return ResourceManager.GetString("result_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The operation is successful..
+        /// </summary>
+        internal static string result_success {
+            get {
+                return ResourceManager.GetString("result_success", resourceCulture);
+            }
+        }
     }
 }

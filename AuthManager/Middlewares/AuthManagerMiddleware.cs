@@ -24,24 +24,19 @@ namespace AuthManager.Middlewares
 
         public async Task Invoke(HttpContext context, DatabaseContext databaseContext)
         {
-            User user = null;
-            string Token = context.Request.Headers["Token"];
             string Key = context.Request.Headers["Key"];
 
             if (Key.Equals(Program.token))
             {
-                user = databaseContext.Users.Where(a => a.Token.Equals(Token)).FirstOrDefault();
-                if (user != null)
+
+                Claim[] claims = new Claim[]
                 {
-                    Claim[] claims = new Claim[]
-                    {
-                        new Claim("id", user.ID.ToString())
-                    };
+                    new Claim("Key", Program.token)
+                };
 
-                    context.User.AddIdentity(new ClaimsIdentity(claims));
+                context.User.AddIdentity(new ClaimsIdentity(claims));
 
-                    await _next.Invoke(context);
-                }
+                await _next.Invoke(context);
             }
         }
     }

@@ -4,4 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Response\Logic\" />
+    <Folder Include="Response\Permission\" />
+    <Folder Include="Response\Resource\" />
+    <Folder Include="Response\Role\" />
+  </ItemGroup>
+
 </Project>
